@@ -50,29 +50,65 @@ const GamePlay: React.FC = () => {
 
   const initializeCamera = useCallback(async () => {
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            width: 640,
-            height: 480,
-            facingMode: 'user'
-          }
-        });
-
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          streamRef.current = stream;
-          setHasCamera(true);
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          width: 640,
+          height: 480,
+          facingMode: 'user'
         }
+      });
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        streamRef.current = stream;
+        setHasCamera(true);
+      }
     } catch (error) {
       console.error('Camera access denied:', error);
       setHasCamera(false);
     }
   }, []);
 
+  const endGame = useCallback((result: 'victory' | 'defeat') => {
+    if (gameTimer.current) {
+      clearInterval(gameTimer.current);
+    }
+    if (animationId.current) {
+      cancelAnimationFrame(animationId.current);
+    }
+
+    setIsPlaying(false);
+    setGamePhase('finished');
+    setGameResult(result);
+
+    // Play audio feedback
+    if (result === 'victory') {
+      audioManager.current.playVictory();
+      audioManager.current.vibrate([100, 100, 100]);
+    } else {
+      audioManager.current.playDefeat();
+      audioManager.current.vibrate(500);
+    }
+
+    // Save session
+    const session: GameSession = {
+      id: Date.now().toString(),
+      bossId: selectedBoss.id,
+      exerciseId: selectedExercise.id,
+      reps: exerciseState.reps,
+      accuracy: exerciseState.reps > 0 ? Math.min(exerciseState.combo / exerciseState.reps * 100, 100) : 0,
+      duration: 120 - timeLeft,
+      victory: result === 'victory',
+      timestamp: Date.now()
+    };
+
+    storageManager.current.saveSession(session);
+  }, [selectedBoss, selectedExercise, exerciseState, timeLeft]);
+
   const startGame = useCallback(async () => {
     await exerciseDetector.current.initialize();
     await audioManager.current.initialize();
-    
+
     setBossHP(selectedBoss.maxHP);
     exerciseDetector.current.reset();
     setTimeLeft(120);
@@ -110,42 +146,6 @@ const GamePlay: React.FC = () => {
       }
     }
   }, [isPlaying, endGame]);
-
-  const endGame = useCallback((result: 'victory' | 'defeat') => {
-    if (gameTimer.current) {
-      clearInterval(gameTimer.current);
-    }
-    if (animationId.current) {
-      cancelAnimationFrame(animationId.current);
-    }
-
-    setIsPlaying(false);
-    setGamePhase('finished');
-    setGameResult(result);
-
-    // Play audio feedback
-    if (result === 'victory') {
-      audioManager.current.playVictory();
-      audioManager.current.vibrate([100, 100, 100]);
-    } else {
-      audioManager.current.playDefeat();
-      audioManager.current.vibrate(500);
-    }
-
-    // Save session
-    const session: GameSession = {
-      id: Date.now().toString(),
-      bossId: selectedBoss.id,
-      exerciseId: selectedExercise.id,
-      reps: exerciseState.reps,
-      accuracy: exerciseState.reps > 0 ? Math.min(exerciseState.combo / exerciseState.reps * 100, 100) : 0,
-      duration: 120 - timeLeft,
-      victory: result === 'victory',
-      timestamp: Date.now()
-    };
-
-    storageManager.current.saveSession(session);
-  }, [selectedBoss, selectedExercise, exerciseState, timeLeft]);
 
   const drawPoseOverlay = useCallback(() => {
     const canvas = canvasRef.current;
