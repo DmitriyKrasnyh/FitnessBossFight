@@ -22,7 +22,7 @@ function App() {
     }
 
     // Update document title
-    document.title = 'Fitness Boss Fight - AI-Powered Workouts';
+    document.title = 'Fitness Boss Fight - Тренировки с ИИ';
     
     // Add meta tags for better PWA experience
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');

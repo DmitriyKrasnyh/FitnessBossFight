@@ -14,7 +14,7 @@ const Profile: React.FC = () => {
   };
 
   const clearAllData = () => {
-    if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+    if (confirm('Вы уверены, что хотите удалить все данные? Это действие нельзя отменить.')) {
       localStorage.clear();
       window.location.reload();
     }
@@ -25,42 +25,42 @@ const Profile: React.FC = () => {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         stream.getTracks().forEach(track => track.stop());
         updateSettings({ ...settings, cameraPermission: true });
-        alert('Camera permission granted!');
+        alert('Доступ к камере предоставлен!');
       } catch {
-        alert('Camera permission denied. Please enable camera access in your browser settings.');
+        alert('В доступе к камере отказано. Пожалуйста, включите доступ в настройках браузера.');
       }
     };
 
   return (
     <div className="p-4 pb-20">
-      <h1 className="text-2xl font-bold mb-6">Profile & Settings</h1>
+      <h1 className="text-2xl font-bold mb-6">Профиль и настройки</h1>
 
       {/* User Stats */}
       <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-6">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <Settings size={24} />
-          Your Stats
+          Ваша статистика
         </h2>
         
         <div className="space-y-3">
           <div className="flex justify-between">
-            <span className="text-gray-300">Total Sessions</span>
+            <span className="text-gray-300">Всего сессий</span>
             <span className="font-semibold">{stats.totalSessions}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-300">Total Reps</span>
+            <span className="text-gray-300">Всего повторов</span>
             <span className="font-semibold">{stats.totalReps}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-300">Victories</span>
+            <span className="text-gray-300">Победы</span>
             <span className="font-semibold text-green-500">{stats.victories}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-300">Current Streak</span>
+            <span className="text-gray-300">Текущая серия</span>
             <span className="font-semibold text-orange-500">{stats.streak}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-300">Best Accuracy</span>
+            <span className="text-gray-300">Лучшая точность</span>
             <span className="font-semibold text-blue-500">{Math.round(stats.bestAccuracy)}%</span>
           </div>
         </div>
@@ -68,14 +68,14 @@ const Profile: React.FC = () => {
 
       {/* Settings */}
       <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Settings</h2>
+        <h2 className="text-xl font-semibold mb-4">Настройки</h2>
         
         <div className="space-y-4">
           {/* Sound Toggle */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               {settings.soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
-              <span>Sound Effects</span>
+              <span>Звуковые эффекты</span>
             </div>
             <button
               onClick={() => updateSettings({ ...settings, soundEnabled: !settings.soundEnabled })}
@@ -95,7 +95,7 @@ const Profile: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Smartphone size={20} />
-              <span>Vibration</span>
+              <span>Вибрация</span>
             </div>
             <button
               onClick={() => updateSettings({ ...settings, vibrationEnabled: !settings.vibrationEnabled })}
@@ -115,16 +115,16 @@ const Profile: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Camera size={20} />
-              <span>Camera Access</span>
+              <span>Доступ к камере</span>
             </div>
             {settings.cameraPermission ? (
-              <span className="text-green-500 text-sm">✓ Granted</span>
+              <span className="text-green-500 text-sm">✓ Разрешено</span>
             ) : (
               <button
                 onClick={requestCameraPermission}
                 className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm"
               >
-                Grant Access
+                Разрешить
               </button>
             )}
           </div>
@@ -133,28 +133,28 @@ const Profile: React.FC = () => {
 
       {/* Privacy Info */}
       <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-6">
-        <h2 className="text-xl font-semibold mb-4">Privacy & Data</h2>
+        <h2 className="text-xl font-semibold mb-4">Конфиденциальность и данные</h2>
         <div className="space-y-3 text-sm text-gray-300">
-          <p>✅ All video processing happens locally on your device</p>
-          <p>✅ No video data is ever sent to servers</p>
-          <p>✅ Only session statistics are stored locally</p>
-          <p>✅ No personal data is collected or shared</p>
-          <p>✅ Works completely offline after initial load</p>
+          <p>✅ Вся обработка видео происходит локально на вашем устройстве</p>
+          <p>✅ Видео не отправляется на серверы</p>
+          <p>✅ Локально сохраняется только статистика</p>
+          <p>✅ Персональные данные не собираются и не передаются</p>
+          <p>✅ Работает полностью офлайн после начальной загрузки</p>
         </div>
       </div>
 
       {/* Data Management */}
       <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
-        <h2 className="text-xl font-semibold mb-4 text-red-400">Data Management</h2>
+        <h2 className="text-xl font-semibold mb-4 text-red-400">Управление данными</h2>
         <p className="text-gray-300 text-sm mb-4">
-          This will permanently delete all your session data, statistics, and settings.
+          Это навсегда удалит все ваши данные, статистику и настройки.
         </p>
         <button
           onClick={clearAllData}
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg flex items-center gap-2 transition-colors"
         >
           <Trash2 size={20} />
-          Clear All Data
+          Очистить все данные
         </button>
       </div>
     </div>

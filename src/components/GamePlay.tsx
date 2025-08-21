@@ -8,6 +8,18 @@ import type { Boss, Exercise, ExerciseState, GameSession } from '../types';
 import bossesData from '../data/bosses.json';
 import exercisesData from '../data/exercises.json';
 
+const difficultyLabels: Record<string, string> = {
+  easy: 'легкий',
+  medium: 'средний',
+  hard: 'сложный'
+};
+
+const phaseLabels: Record<ExerciseState['phase'], string> = {
+  neutral: 'нейтрально',
+  down: 'вниз',
+  up: 'вверх'
+};
+
 const GamePlay: React.FC = () => {
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -151,7 +163,7 @@ const GamePlay: React.FC = () => {
     // Draw exercise guidance
     ctx.fillStyle = exerciseState.phase === 'down' ? '#ef4444' : exerciseState.phase === 'up' ? '#22c55e' : '#6b7280';
     ctx.font = '24px Arial';
-    ctx.fillText(`${selectedExercise.name}: ${exerciseState.phase}`, 20, 40);
+    ctx.fillText(`${selectedExercise.name}: ${phaseLabels[exerciseState.phase]}`, 20, 40);
   }, [exerciseState.phase, selectedExercise.name]);
 
   const processFrame = useCallback(async () => {
@@ -243,7 +255,7 @@ const GamePlay: React.FC = () => {
       <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin text-4xl mb-4">⚡</div>
-          <p>Loading AI models...</p>
+          <p>Загрузка моделей ИИ...</p>
         </div>
       </div>
     );
@@ -272,7 +284,7 @@ const GamePlay: React.FC = () => {
       {gamePhase === 'setup' && (
         <div className="p-4 space-y-6">
           <div>
-            <h3 className="text-lg font-semibold mb-3">Choose Boss</h3>
+            <h3 className="text-lg font-semibold mb-3">Выберите босса</h3>
             <div className="grid grid-cols-1 gap-3">
               {bossesData.map((boss) => (
                 <button
@@ -298,7 +310,7 @@ const GamePlay: React.FC = () => {
                         boss.difficulty === 'easy' ? 'text-green-500' :
                         boss.difficulty === 'medium' ? 'text-yellow-500' : 'text-red-500'
                       }`}>
-                        {boss.difficulty}
+                        {difficultyLabels[boss.difficulty]}
                       </div>
                     </div>
                   </div>
@@ -308,7 +320,7 @@ const GamePlay: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-3">Choose Exercise</h3>
+            <h3 className="text-lg font-semibold mb-3">Выберите упражнение</h3>
             <div className="grid grid-cols-2 gap-3">
               {exercisesData.map((exercise) => (
                 <button
@@ -330,7 +342,7 @@ const GamePlay: React.FC = () => {
           {!hasCamera && (
             <div className="bg-yellow-600/20 border border-yellow-600 p-4 rounded-lg">
               <p className="text-yellow-200 text-sm">
-                No camera detected. You can still play using the spacebar to count reps, but progress won't be saved.
+                Камера не обнаружена. Вы можете играть, нажимая пробел для подсчёта повторов, но прогресс не будет сохранён.
               </p>
             </div>
           )}
@@ -340,7 +352,7 @@ const GamePlay: React.FC = () => {
             className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition-all duration-200 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
           >
             <Play size={24} />
-            Start Battle
+            Начать битву
           </button>
         </div>
       )}
@@ -390,11 +402,11 @@ const GamePlay: React.FC = () => {
             <div className="grid grid-cols-3 gap-4 mb-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-500">{exerciseState.reps}</div>
-                <div className="text-xs text-gray-300">Reps</div>
+                <div className="text-xs text-gray-300">Повторы</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-500">{exerciseState.combo}</div>
-                <div className="text-xs text-gray-300">Combo</div>
+                <div className="text-xs text-gray-300">Комбо</div>
               </div>
               <div className="text-center">
                 <div className={`text-2xl font-bold ${
@@ -404,7 +416,7 @@ const GamePlay: React.FC = () => {
                   {exerciseState.phase === 'neutral' ? '⚪' :
                    exerciseState.phase === 'down' ? '🔴' : '🟢'}
                 </div>
-                <div className="text-xs text-gray-300 capitalize">{exerciseState.phase}</div>
+                <div className="text-xs text-gray-300 capitalize">{phaseLabels[exerciseState.phase]}</div>
               </div>
             </div>
 
@@ -423,7 +435,7 @@ const GamePlay: React.FC = () => {
               className="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2"
             >
               {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-              {isPlaying ? 'Pause' : 'Resume'}
+              {isPlaying ? 'Пауза' : 'Продолжить'}
             </button>
           </div>
         </div>
@@ -438,10 +450,10 @@ const GamePlay: React.FC = () => {
           <h2 className={`text-3xl font-bold mb-2 ${
             gameResult === 'victory' ? 'text-green-500' : 'text-red-500'
           }`}>
-            {gameResult === 'victory' ? 'Victory!' : 'Defeat!'}
+            {gameResult === 'victory' ? 'Победа!' : 'Поражение!'}
           </h2>
           <p className="text-gray-300 mb-6">
-            You completed {exerciseState.reps} reps in {120 - timeLeft} seconds
+            Вы выполнили {exerciseState.reps} повторов за {120 - timeLeft} секунд
           </p>
 
           <div className="space-y-4">
@@ -453,13 +465,13 @@ const GamePlay: React.FC = () => {
               }}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg"
             >
-              Play Again
+              Играть снова
             </button>
             <button
               onClick={() => navigate('/results')}
               className="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg"
             >
-              View Results
+              Посмотреть результаты
             </button>
           </div>
         </div>
