@@ -38,8 +38,9 @@ const Landing: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white p-4">
+      <div className="max-w-3xl mx-auto">
       {showInstall && (
-        <div className="bg-red-600 p-3 rounded-lg mb-6 flex items-center justify-between">
+        <div className="bg-red-600/90 backdrop-blur p-3 rounded-xl mb-6 flex items-center justify-between shadow-lg">
           <div>
             <p className="font-semibold">Установить Fitness Boss</p>
             <p className="text-sm opacity-90">Получите полный опыт приложения</p>
@@ -65,7 +66,7 @@ const Landing: React.FC = () => {
       </div>
 
       <div className="space-y-6 mb-8">
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gray-800/80 backdrop-blur p-6 rounded-xl shadow-lg">
           <div className="flex items-center gap-3 mb-3">
             <Camera className="text-red-500" size={24} />
             <h3 className="text-xl font-semibold">Как это работает</h3>
@@ -78,7 +79,7 @@ const Landing: React.FC = () => {
           </ul>
         </div>
 
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gray-800/80 backdrop-blur p-6 rounded-xl shadow-lg">
           <div className="flex items-center gap-3 mb-3">
             <Shield className="text-green-500" size={24} />
             <h3 className="text-xl font-semibold">Конфиденциальность прежде всего</h3>
@@ -88,7 +89,7 @@ const Landing: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gray-800/80 backdrop-blur p-6 rounded-xl shadow-lg">
           <div className="flex items-center gap-3 mb-3">
             <Zap className="text-yellow-500" size={24} />
             <h3 className="text-xl font-semibold">Упражнения</h3>
@@ -105,7 +106,7 @@ const Landing: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+        <div className="bg-gray-800/80 backdrop-blur p-6 rounded-xl shadow-lg">
           <div className="flex items-center gap-3 mb-3">
             <Trophy className="text-purple-500" size={24} />
             <h3 className="text-xl font-semibold">Боссы</h3>
@@ -129,11 +130,12 @@ const Landing: React.FC = () => {
 
       <Link
         to="/play"
-        className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition-all duration-200 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+        className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-6 rounded-xl text-lg transition-all duration-200 transform hover:scale-105 shadow-xl flex items-center justify-center gap-2"
       >
         <Play size={24} />
         Начать битву
       </Link>
+      </div>
     </div>
   );
 };

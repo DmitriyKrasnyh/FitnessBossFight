@@ -252,7 +252,7 @@ const GamePlay: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin text-4xl mb-4">⚡</div>
           <p>Загрузка моделей ИИ...</p>
@@ -262,11 +262,11 @@ const GamePlay: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
       {/* Header */}
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
+      <div className="bg-gray-800/80 backdrop-blur border-b border-gray-700 p-4 shadow-lg">
         <div className="flex items-center justify-between">
-          <button onClick={() => navigate('/')} className="p-2">
+          <button onClick={() => navigate('/')} className="p-2 rounded-lg hover:bg-gray-700/50">
             <Home size={24} />
           </button>
           <div className="text-center">
@@ -274,7 +274,7 @@ const GamePlay: React.FC = () => {
               {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
             </div>
           </div>
-          <button className="p-2">
+          <button className="p-2 rounded-lg hover:bg-gray-700/50">
             <Settings size={24} />
           </button>
         </div>
@@ -368,17 +368,17 @@ const GamePlay: React.FC = () => {
                 autoPlay
                 playsInline
                 muted
-                className="w-full h-64 bg-black object-cover"
+                className="w-full h-64 bg-black object-cover rounded-t-xl"
               />
               <canvas
                 ref={canvasRef}
-                className="absolute top-0 left-0 w-full h-64 pointer-events-none"
+                className="absolute top-0 left-0 w-full h-64 pointer-events-none rounded-t-xl"
               />
             </div>
           )}
 
           {/* HUD */}
-          <div className="bg-gray-800/90 backdrop-blur p-4">
+          <div className="bg-gray-800/90 backdrop-blur p-4 rounded-b-xl shadow-lg">
             {/* Boss HP */}
             <div className="mb-4">
               <div className="flex items-center justify-between mb-2">
@@ -432,7 +432,7 @@ const GamePlay: React.FC = () => {
             {/* Controls */}
             <button
               onClick={pauseGame}
-              className="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors"
             >
               {isPlaying ? <Pause size={20} /> : <Play size={20} />}
               {isPlaying ? 'Пауза' : 'Продолжить'}

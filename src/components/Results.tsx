@@ -22,12 +22,14 @@ const Results: React.FC = () => {
   const recentSessions = sessions.slice(0, 10);
 
   return (
-    <div className="p-4 pb-20">
+
+    <div className="p-4 pb-20 max-w-3xl mx-auto">
+
       <h1 className="text-2xl font-bold mb-6">Результаты битв</h1>
 
       {/* Stats Overview */}
       <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="bg-gray-800 p-4 rounded-xl border border-gray-700">
+        <div className="bg-gray-800/80 backdrop-blur p-4 rounded-xl shadow-lg">
           <div className="flex items-center gap-2 mb-2">
             <Trophy className="text-yellow-500" size={20} />
             <span className="text-sm text-gray-300">Победы</span>
@@ -38,7 +40,7 @@ const Results: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-gray-800 p-4 rounded-xl border border-gray-700">
+        <div className="bg-gray-800/80 backdrop-blur p-4 rounded-xl shadow-lg">
           <div className="flex items-center gap-2 mb-2">
             <Zap className="text-orange-500" size={20} />
             <span className="text-sm text-gray-300">Текущая серия</span>
@@ -47,7 +49,7 @@ const Results: React.FC = () => {
           <div className="text-xs text-gray-400">битв</div>
         </div>
 
-        <div className="bg-gray-800 p-4 rounded-xl border border-gray-700">
+        <div className="bg-gray-800/80 backdrop-blur p-4 rounded-xl shadow-lg">
           <div className="flex items-center gap-2 mb-2">
             <Target className="text-blue-500" size={20} />
             <span className="text-sm text-gray-300">Всего повторов</span>
@@ -58,7 +60,7 @@ const Results: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-gray-800 p-4 rounded-xl border border-gray-700">
+        <div className="bg-gray-800/80 backdrop-blur p-4 rounded-xl shadow-lg">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="text-green-500" size={20} />
             <span className="text-sm text-gray-300">Лучшая точность</span>
@@ -73,7 +75,7 @@ const Results: React.FC = () => {
         <h2 className="text-xl font-semibold mb-4">Недавние битвы</h2>
         
         {recentSessions.length === 0 ? (
-          <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 text-center">
+          <div className="bg-gray-800/80 backdrop-blur p-6 rounded-xl shadow-lg text-center">
             <div className="text-4xl mb-3">⚔️</div>
             <p className="text-gray-300">Пока нет битв!</p>
             <p className="text-sm text-gray-400 mt-1">Начните первую битву, чтобы увидеть результаты здесь</p>
@@ -87,7 +89,7 @@ const Results: React.FC = () => {
               return (
                 <div
                   key={session.id}
-                  className={`bg-gray-800 p-4 rounded-xl border-2 ${
+                  className={`bg-gray-800/80 backdrop-blur p-4 rounded-xl border-2 shadow-lg ${
                     session.victory ? 'border-green-500/50' : 'border-red-500/50'
                   }`}
                 >
@@ -116,7 +118,9 @@ const Results: React.FC = () => {
                       <div className="text-xs text-gray-400">Точность</div>
                     </div>
                     <div>
-                      <div className="text-lg font-bold text-orange-500">{session.duration}s</div>
+
+                      <div className="text-lg font-bold text-orange-500">{session.duration}с</div>
+
                       <div className="text-xs text-gray-400">Длительность</div>
                     </div>
                   </div>
@@ -141,7 +145,7 @@ const Results: React.FC = () => {
             const winRate = bossAttempts > 0 ? Math.round((bossVictories / bossAttempts) * 100) : 0;
             
             return (
-              <div key={boss.id} className="bg-gray-800 p-4 rounded-xl border border-gray-700">
+              <div key={boss.id} className="bg-gray-800/80 backdrop-blur p-4 rounded-xl shadow-lg border border-gray-700">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-2xl">{boss.avatar}</span>

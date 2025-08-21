@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Settings, Volume2, VolumeX, Smartphone, Camera, Trash2 } from 'lucide-react';
 import { StorageManager } from '../utils/storage';
 import type { UserSettings } from '../types';
 
 const Profile: React.FC = () => {
-  const storageManager = new StorageManager();
+  const storageManager = useMemo(() => new StorageManager(), []);
   const [settings, setSettings] = useState<UserSettings>(storageManager.getSettings());
   const stats = storageManager.getStats();
 
@@ -14,7 +14,9 @@ const Profile: React.FC = () => {
   };
 
   const clearAllData = () => {
-    if (confirm('Вы уверены, что хотите удалить все данные? Это действие нельзя отменить.')) {
+
+    if (window.confirm('Вы уверены, что хотите удалить все данные? Это действие нельзя отменить.')) {
+
       localStorage.clear();
       window.location.reload();
     }
@@ -32,11 +34,13 @@ const Profile: React.FC = () => {
     };
 
   return (
-    <div className="p-4 pb-20">
+
+    <div className="p-4 pb-20 max-w-3xl mx-auto">
+
       <h1 className="text-2xl font-bold mb-6">Профиль и настройки</h1>
 
       {/* User Stats */}
-      <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-6">
+      <div className="bg-gray-800/80 backdrop-blur p-6 rounded-xl shadow-lg border border-gray-700 mb-6">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <Settings size={24} />
           Ваша статистика
@@ -67,7 +71,9 @@ const Profile: React.FC = () => {
       </div>
 
       {/* Settings */}
-      <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-6">
+
+      <div className="bg-gray-800/80 backdrop-blur p-6 rounded-xl shadow-lg border border-gray-700 mb-6">
+
         <h2 className="text-xl font-semibold mb-4">Настройки</h2>
         
         <div className="space-y-4">
@@ -132,7 +138,9 @@ const Profile: React.FC = () => {
       </div>
 
       {/* Privacy Info */}
-      <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-6">
+
+      <div className="bg-gray-800/80 backdrop-blur p-6 rounded-xl shadow-lg border border-gray-700 mb-6">
+
         <h2 className="text-xl font-semibold mb-4">Конфиденциальность и данные</h2>
         <div className="space-y-3 text-sm text-gray-300">
           <p>✅ Вся обработка видео происходит локально на вашем устройстве</p>
@@ -144,7 +152,9 @@ const Profile: React.FC = () => {
       </div>
 
       {/* Data Management */}
-      <div className="bg-gray-800 p-6 rounded-xl border border-gray-700">
+
+      <div className="bg-gray-800/80 backdrop-blur p-6 rounded-xl shadow-lg border border-gray-700">
+
         <h2 className="text-xl font-semibold mb-4 text-red-400">Управление данными</h2>
         <p className="text-gray-300 text-sm mb-4">
           Это навсегда удалит все ваши данные, статистику и настройки.
