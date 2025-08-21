@@ -1,9 +1,9 @@
 [
   {
     "id": "squat",
-    "name": "Squats",
+    "name": "Приседания",
     "icon": "🏋️",
-    "description": "Bend your knees until thigh is parallel to ground",
+    "description": "Сгибайте колени, пока бедро не станет параллельно полу",
     "detection": {
       "downAngle": 85,
       "upAngle": 165,
@@ -13,9 +13,9 @@
   },
   {
     "id": "pushup",
-    "name": "Push-ups", 
+    "name": "Отжимания",
     "icon": "💪",
-    "description": "Lower your body until chest nearly touches ground",
+    "description": "Опускайте тело, пока грудь почти не касается земли",
     "detection": {
       "downAngle": 70,
       "upAngle": 160,
