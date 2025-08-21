@@ -1,0 +1,26 @@
+[
+  {
+    "id": "goblin",
+    "name": "Training Goblin",
+    "difficulty": "easy",
+    "maxHP": 30,
+    "avatar": "🧌",
+    "description": "A weak opponent perfect for beginners"
+  },
+  {
+    "id": "orc",
+    "name": "Fitness Orc",
+    "difficulty": "medium", 
+    "maxHP": 60,
+    "avatar": "👹",
+    "description": "A challenging mid-level boss"
+  },
+  {
+    "id": "dragon",
+    "name": "Gym Dragon",
+    "difficulty": "hard",
+    "maxHP": 100,
+    "avatar": "🐲",
+    "description": "The ultimate fitness challenge"
+  }
+]

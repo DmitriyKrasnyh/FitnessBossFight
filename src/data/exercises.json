@@ -1,0 +1,26 @@
+[
+  {
+    "id": "squat",
+    "name": "Squats",
+    "icon": "🏋️",
+    "description": "Bend your knees until thigh is parallel to ground",
+    "detection": {
+      "downAngle": 85,
+      "upAngle": 165,
+      "holdDuration": 120,
+      "joints": ["leftKnee", "rightKnee"]
+    }
+  },
+  {
+    "id": "pushup",
+    "name": "Push-ups", 
+    "icon": "💪",
+    "description": "Lower your body until chest nearly touches ground",
+    "detection": {
+      "downAngle": 70,
+      "upAngle": 160,
+      "holdDuration": 120,
+      "joints": ["leftElbow", "rightElbow"]
+    }
+  }
+]
