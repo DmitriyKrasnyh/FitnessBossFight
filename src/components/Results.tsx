@@ -22,7 +22,9 @@ const Results: React.FC = () => {
   const recentSessions = sessions.slice(0, 10);
 
   return (
+
     <div className="p-4 pb-20 max-w-3xl mx-auto">
+
       <h1 className="text-2xl font-bold mb-6">Результаты битв</h1>
 
       {/* Stats Overview */}
@@ -116,7 +118,9 @@ const Results: React.FC = () => {
                       <div className="text-xs text-gray-400">Точность</div>
                     </div>
                     <div>
+
                       <div className="text-lg font-bold text-orange-500">{session.duration}с</div>
+
                       <div className="text-xs text-gray-400">Длительность</div>
                     </div>
                   </div>
