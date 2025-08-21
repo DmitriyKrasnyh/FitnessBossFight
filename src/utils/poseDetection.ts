@@ -1,9 +1,9 @@
 import * as tf from '@tensorflow/tfjs';
-import { createDetector, SupportedModels } from '@tensorflow-models/pose-detection';
+import { createDetector, SupportedModels, type PoseDetector as TFPoseDetector } from '@tensorflow-models/pose-detection';
 import type { Pose } from '../types';
 
 export class PoseDetector {
-  private detector: any = null;
+  private detector: TFPoseDetector | null = null;
   private isLoaded = false;
 
   async initialize() {

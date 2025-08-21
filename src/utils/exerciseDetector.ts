@@ -1,4 +1,4 @@
-import type { Pose, Exercise, ExerciseState, ExercisePhase } from '../types';
+import type { Pose, Exercise, ExerciseState } from '../types';
 import { PoseDetector } from './poseDetection';
 
 export class ExerciseDetector {
