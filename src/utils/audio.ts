@@ -4,7 +4,13 @@ export class AudioManager {
 
   async initialize() {
     if (!this.audioContext) {
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      type ExtendedWindow = Window & { webkitAudioContext?: typeof AudioContext };
+      const AudioContextClass =
+        (window as ExtendedWindow).AudioContext ||
+        (window as ExtendedWindow).webkitAudioContext;
+      if (AudioContextClass) {
+        this.audioContext = new AudioContextClass();
+      }
     }
   }
 

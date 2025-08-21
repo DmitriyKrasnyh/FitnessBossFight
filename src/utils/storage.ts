@@ -1,4 +1,4 @@
-import type { GameSession, UserStats } from '../types';
+import type { GameSession, UserStats, UserSettings } from '../types';
 
 export class StorageManager {
   private readonly SESSIONS_KEY = 'fitness-boss-sessions';
@@ -20,18 +20,29 @@ export class StorageManager {
 
   getSessions(): GameSession[] {
     const data = localStorage.getItem(this.SESSIONS_KEY);
-    return data ? JSON.parse(data) : [];
+    if (!data) return [];
+    try {
+      return JSON.parse(data) as GameSession[];
+    } catch {
+      return [];
+    }
   }
 
   getStats(): UserStats {
     const data = localStorage.getItem(this.STATS_KEY);
-    return data ? JSON.parse(data) : {
+    const defaults: UserStats = {
       totalReps: 0,
       totalSessions: 0,
       victories: 0,
       streak: 0,
       bestAccuracy: 0
     };
+    if (!data) return defaults;
+    try {
+      return JSON.parse(data) as UserStats;
+    } catch {
+      return defaults;
+    }
   }
 
   private updateStats(session: GameSession) {
@@ -51,16 +62,22 @@ export class StorageManager {
     localStorage.setItem(this.STATS_KEY, JSON.stringify(stats));
   }
 
-  getSettings() {
-    const data = localStorage.getItem(this.SETTINGS_KEY);
-    return data ? JSON.parse(data) : {
+  getSettings(): UserSettings {
+    const defaults: UserSettings = {
       soundEnabled: true,
       vibrationEnabled: true,
       cameraPermission: false
     };
+    const data = localStorage.getItem(this.SETTINGS_KEY);
+    if (!data) return defaults;
+    try {
+      return JSON.parse(data) as UserSettings;
+    } catch {
+      return defaults;
+    }
   }
 
-  saveSettings(settings: any) {
+  saveSettings(settings: UserSettings) {
     localStorage.setItem(this.SETTINGS_KEY, JSON.stringify(settings));
   }
 }

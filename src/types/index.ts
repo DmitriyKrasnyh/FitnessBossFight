@@ -57,3 +57,9 @@ export interface ExerciseState {
   angles: number[];
   combo: number;
 }
+
+export interface UserSettings {
+  soundEnabled: boolean;
+  vibrationEnabled: boolean;
+  cameraPermission: boolean;
+}

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Settings, Volume2, VolumeX, Smartphone, Camera, Trash2 } from 'lucide-react';
 import { StorageManager } from '../utils/storage';
+import type { UserSettings } from '../types';
 
 const Profile: React.FC = () => {
   const storageManager = new StorageManager();
-  const [settings, setSettings] = useState(storageManager.getSettings());
+  const [settings, setSettings] = useState<UserSettings>(storageManager.getSettings());
   const stats = storageManager.getStats();
 
-  const updateSettings = (newSettings: any) => {
+  const updateSettings = (newSettings: UserSettings) => {
     setSettings(newSettings);
     storageManager.saveSettings(newSettings);
   };
@@ -19,16 +20,16 @@ const Profile: React.FC = () => {
     }
   };
 
-  const requestCameraPermission = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      stream.getTracks().forEach(track => track.stop());
-      updateSettings({ ...settings, cameraPermission: true });
-      alert('Camera permission granted!');
-    } catch (error) {
-      alert('Camera permission denied. Please enable camera access in your browser settings.');
-    }
-  };
+    const requestCameraPermission = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        stream.getTracks().forEach(track => track.stop());
+        updateSettings({ ...settings, cameraPermission: true });
+        alert('Camera permission granted!');
+      } catch {
+        alert('Camera permission denied. Please enable camera access in your browser settings.');
+      }
+    };
 
   return (
     <div className="p-4 pb-20">

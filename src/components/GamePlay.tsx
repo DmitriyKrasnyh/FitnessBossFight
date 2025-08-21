@@ -12,6 +12,7 @@ const GamePlay: React.FC = () => {
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasCamera, setHasCamera] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -33,22 +34,23 @@ const GamePlay: React.FC = () => {
   const audioManager = useRef(new AudioManager());
   const storageManager = useRef(new StorageManager());
   const animationId = useRef<number>();
-  const gameTimer = useRef<NodeJS.Timeout>();
+  const gameTimer = useRef<ReturnType<typeof setInterval>>();
 
   const initializeCamera = useCallback(async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { 
-          width: 640, 
-          height: 480, 
-          facingMode: 'user' 
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: 640,
+            height: 480,
+            facingMode: 'user'
+          }
+        });
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          streamRef.current = stream;
+          setHasCamera(true);
         }
-      });
-      
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        setHasCamera(true);
-      }
     } catch (error) {
       console.error('Camera access denied:', error);
       setHasCamera(false);
@@ -76,7 +78,7 @@ const GamePlay: React.FC = () => {
         return prev - 1;
       });
     }, 1000);
-  }, [selectedBoss]);
+  }, [selectedBoss, endGame]);
 
   const pauseGame = useCallback(() => {
     setIsPlaying(!isPlaying);
@@ -95,7 +97,7 @@ const GamePlay: React.FC = () => {
         }, 1000);
       }
     }
-  }, [isPlaying]);
+  }, [isPlaying, endGame]);
 
   const endGame = useCallback((result: 'victory' | 'defeat') => {
     if (gameTimer.current) {
@@ -133,37 +135,7 @@ const GamePlay: React.FC = () => {
     storageManager.current.saveSession(session);
   }, [selectedBoss, selectedExercise, exerciseState, timeLeft]);
 
-  const processFrame = useCallback(async () => {
-    if (!isPlaying || !videoRef.current || gamePhase !== 'playing') return;
-
-    const newRep = await exerciseDetector.current.processFrame(videoRef.current, selectedExercise);
-    const state = exerciseDetector.current.getState();
-    
-    setExerciseState(state);
-
-    if (newRep) {
-      const damage = 1;
-      setBossHP((prev) => {
-        const newHP = Math.max(0, prev - damage);
-        if (newHP === 0) {
-          endGame('victory');
-        }
-        return newHP;
-      });
-      
-      audioManager.current.playSuccess();
-      audioManager.current.vibrate(50);
-    }
-
-    // Draw pose overlay
-    drawPoseOverlay();
-
-    if (isPlaying) {
-      animationId.current = requestAnimationFrame(processFrame);
-    }
-  }, [isPlaying, selectedExercise, gamePhase, endGame]);
-
-  const drawPoseOverlay = () => {
+  const drawPoseOverlay = useCallback(() => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
     if (!canvas || !video) return;
@@ -180,7 +152,37 @@ const GamePlay: React.FC = () => {
     ctx.fillStyle = exerciseState.phase === 'down' ? '#ef4444' : exerciseState.phase === 'up' ? '#22c55e' : '#6b7280';
     ctx.font = '24px Arial';
     ctx.fillText(`${selectedExercise.name}: ${exerciseState.phase}`, 20, 40);
-  };
+  }, [exerciseState.phase, selectedExercise.name]);
+
+  const processFrame = useCallback(async () => {
+    if (!isPlaying || !videoRef.current || gamePhase !== 'playing') return;
+
+    const newRep = await exerciseDetector.current.processFrame(videoRef.current, selectedExercise);
+    const state = exerciseDetector.current.getState();
+
+    setExerciseState(state);
+
+    if (newRep) {
+      const damage = 1;
+      setBossHP((prev) => {
+        const newHP = Math.max(0, prev - damage);
+        if (newHP === 0) {
+          endGame('victory');
+        }
+        return newHP;
+      });
+
+      audioManager.current.playSuccess();
+      audioManager.current.vibrate(50);
+    }
+
+    // Draw pose overlay
+    drawPoseOverlay();
+
+    if (isPlaying) {
+      animationId.current = requestAnimationFrame(processFrame);
+    }
+  }, [isPlaying, selectedExercise, gamePhase, endGame, drawPoseOverlay]);
 
   useEffect(() => {
     const initialize = async () => {
@@ -188,8 +190,10 @@ const GamePlay: React.FC = () => {
       await initializeCamera();
       setIsLoading(false);
     };
-    
+
     initialize();
+
+    const videoElement = videoRef.current;
 
     return () => {
       if (animationId.current) {
@@ -197,6 +201,13 @@ const GamePlay: React.FC = () => {
       }
       if (gameTimer.current) {
         clearInterval(gameTimer.current);
+      }
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
+      if (videoElement) {
+        videoElement.srcObject = null;
       }
     };
   }, [initializeCamera]);
