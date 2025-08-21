@@ -13,20 +13,20 @@ const Layout: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <nav className="bg-gray-800 border-b border-gray-700">
-        <div className="max-w-md mx-auto px-4">
+        <div className="max-w-md md:max-w-2xl lg:max-w-4xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="font-bold text-xl text-red-500">
-              💪 Fitness Boss
+              💪 Фитнес Босс
             </Link>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-md mx-auto">
+      <main className="max-w-md md:max-w-2xl lg:max-w-4xl mx-auto">
         <Outlet />
       </main>
 
-      <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-gray-800 border-t border-gray-700">
+      <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md md:max-w-2xl lg:max-w-4xl bg-gray-800 border-t border-gray-700">
         <div className="grid grid-cols-4 h-16">
           <Link
             to="/"
@@ -35,7 +35,7 @@ const Layout: React.FC = () => {
             }`}
           >
             <Home size={20} />
-            <span>Home</span>
+            <span>Главная</span>
           </Link>
           <Link
             to="/play"
@@ -44,7 +44,7 @@ const Layout: React.FC = () => {
             }`}
           >
             <Play size={20} />
-            <span>Play</span>
+            <span>Игра</span>
           </Link>
           <Link
             to="/results"
@@ -53,7 +53,7 @@ const Layout: React.FC = () => {
             }`}
           >
             <BarChart3 size={20} />
-            <span>Results</span>
+            <span>Результаты</span>
           </Link>
           <Link
             to="/profile"
@@ -62,7 +62,7 @@ const Layout: React.FC = () => {
             }`}
           >
             <User size={20} />
-            <span>Profile</span>
+            <span>Профиль</span>
           </Link>
         </div>
       </nav>

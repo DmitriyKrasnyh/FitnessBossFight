@@ -1,7 +1,7 @@
 {
-  "name": "Fitness Boss Fight",
-  "short_name": "FitnessBoss",
-  "description": "AI-powered fitness training with pose detection",
+  "name": "Битва Фитнес Босса",
+  "short_name": "ФитнесБосс",
+  "description": "Фитнес-тренировки с ИИ и распознаванием поз",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f0f0f",

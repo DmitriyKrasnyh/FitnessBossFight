@@ -1,26 +1,26 @@
 [
   {
     "id": "goblin",
-    "name": "Training Goblin",
+    "name": "Тренировочный гоблин",
     "difficulty": "easy",
     "maxHP": 30,
     "avatar": "🧌",
-    "description": "A weak opponent perfect for beginners"
+    "description": "Слабый противник, идеально подходящий для новичков"
   },
   {
     "id": "orc",
-    "name": "Fitness Orc",
-    "difficulty": "medium", 
+    "name": "Фитнес орк",
+    "difficulty": "medium",
     "maxHP": 60,
     "avatar": "👹",
-    "description": "A challenging mid-level boss"
+    "description": "Сложный босс среднего уровня"
   },
   {
     "id": "dragon",
-    "name": "Gym Dragon",
+    "name": "Дракон спортзала",
     "difficulty": "hard",
     "maxHP": 100,
     "avatar": "🐲",
-    "description": "The ultimate fitness challenge"
+    "description": "Высшее фитнес-испытание"
   }
 ]
